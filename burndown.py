@@ -21,4 +21,4 @@ for item in items:
           (item["name"], item["source"], item["url"], item["length"]))
 
 with open("output.json", "w", encoding="utf-8") as f:
-    json.dump(item, f)
+    json.dump(items, f)

@@ -75,7 +75,7 @@ class tvtime:
                             "name": row["name"],
                             "source": "tvtime",
                             "length": (row["aired_episode_count"] - row["watched_episode_count"]) * float(row["runtime"]) / 60.0,
-                            "type": "movie",
+                            "type": "tvshow",
                             "url": f"https://app.tvtime.com/series/{row['id']}"
                         }
                     )

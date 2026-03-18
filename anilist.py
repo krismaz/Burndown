@@ -107,7 +107,7 @@ class anilist:
                     "name": row["media"]["title"]["romaji"],
                     "source": self.source,
                     "url": row["media"]["siteUrl"],
-                    "type": "comic" if manga else "book",
+                    "type": "manga" if manga else "anime",
                     "length": length,
                 })
         
