@@ -69,7 +69,7 @@ class tvtime:
         with open(file_path, "r", encoding="utf-8") as f:
             data = json.load(f)
             for row in data:
-                if not row["is_up_to_date"]:
+                if not row["is_up_to_date"] and not row["is_archived"]:
                     movies.append(
                         {
                             "name": row["name"],
