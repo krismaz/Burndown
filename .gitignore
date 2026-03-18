@@ -1,0 +1,6 @@
+/__pycache__
+/data
+/PlayniteDump/.vs
+/PlayniteDump/PlayniteDump/bin
+/PlayniteDump/PlayniteDump/obj
+secrets.py
