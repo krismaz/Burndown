@@ -42,7 +42,7 @@ class imdb:
         driver.find_element(
             By.XPATH, "//button[@aria-label='Export']").click()
 
-        time.sleep(5)  # Wait for the export to be ready
+        time.sleep(60)  # Wait for the export to be ready
 
         # Download the file
         driver.get("https://www.imdb.com/exports/?status=ready")

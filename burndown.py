@@ -1,4 +1,5 @@
 import json
+import time
 
 from imdb import imdb
 from tvtime import tvtime
@@ -22,3 +23,10 @@ for item in items:
 
 with open("output.json", "w", encoding="utf-8") as f:
     json.dump(items, f)
+
+with open("timestamps.json", "r+", encoding="utf-8") as f:
+    timestamps = json.load(f)
+    timestamps.append({"timestamp": int(time.time()), "total": sum(item["length"] for item in items)})
+    f.seek(0)
+    json.dump(timestamps, f)
+    f.truncate()
