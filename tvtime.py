@@ -21,7 +21,7 @@ class tvtime:
         driver.get("https://app.tvtime.com/welcome")
 
         time.sleep(5)  # Wait for the page to load
-        ActionChains(driver).send_keys(Keys.TAB*3).send_keys(Keys.RETURN).send_keys(Keys.TAB*7).send_keys(Keys.RETURN).perform()
+        ActionChains(driver).send_keys(Keys.TAB*3).send_keys(Keys.RETURN).pause(1).send_keys(Keys.TAB*6).send_keys(Keys.RETURN).perform()
         
         element = None
         while not element:

@@ -21,25 +21,46 @@ class storygraph:
         driver.find_element(By.ID, "user_password").send_keys(self.credentials[1])
         driver.find_element(By.ID, "sign-in-btn").click()
         time.sleep(3)
+
+        # Scrape To-Read Pile
         driver.find_element(By.LINK_TEXT, "To-Read Pile").click()
+        data = self._scrape_books(driver)
+
+        # Scrape Currently Reading
+        driver.get("https://app.thestorygraph.com/users/sign_in")
+
+        driver.find_element(By.PARTIAL_LINK_TEXT, "Current Reads").click()
+        data += self._scrape_books(driver)
+
+        with open(os.path.join(self.download_dir, "storygraph.csv"), "w", newline="", encoding="utf-8") as f:
+            writer = csv.DictWriter(f, fieldnames=["name", "pages", "url", "tags"])
+            writer.writeheader()
+            writer.writerows(data)
+        driver.close()
+
+    def _scrape_books(self, driver):
         last_height = -1
+        max_retries = 5
         while True:
-            # Scroll down to bottom
             driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-
-            # Wait to load page
-            time.sleep(5)
-
-            # Calculate new scroll height and compare with last scroll height
-            new_height = driver.execute_script("return document.body.scrollHeight")
-
-            if new_height == last_height:
+            wait_time = 1
+            retries = 0
+            while retries < max_retries:
+                time.sleep(wait_time)
+                new_height = driver.execute_script("return document.body.scrollHeight")
+                if new_height > last_height:
+                    last_height = new_height
+                    break  # New content loaded, scroll again
+                else:
+                    wait_time = wait_time * 2
+                    retries += 1
+            else:
+                # No new content after max_retries
                 break
-            last_height = new_height
 
-        posts = driver.find_elements(By.CLASS_NAME, "book-pane-content")
+        books = driver.find_elements(By.CLASS_NAME, "book-pane-content")
         data = []
-        for post in posts:
+        for post in books:
             name = post.find_element(By.CLASS_NAME, "book-title-author-and-series").find_element(By.TAG_NAME, "h3").find_element(By.TAG_NAME, "a").text
             if not name:
                 continue
@@ -52,13 +73,7 @@ class storygraph:
                 "url": url,
                 "tags": ",".join([tag.text for tag in tags])
             })
-        with open(os.path.join(self.download_dir, "storygraph.csv"), "w", newline="", encoding="utf-8") as f:
-            writer = csv.DictWriter(f, fieldnames=["name", "pages", "url", "tags"])
-            writer.writeheader()
-            writer.writerows(data)
-
-        # Done!
-        driver.close()
+        return data
 
     def parse(self):
         files = os.listdir(self.download_dir)
