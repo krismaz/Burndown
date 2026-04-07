@@ -104,7 +104,7 @@ class anilist:
                     continue
                 
                 media.append({
-                    "name": row["media"]["title"]["romaji"],
+                    "name": row["media"]["title"]["english"] or row["media"]["title"]["romaji"],
                     "source": self.source,
                     "url": row["media"]["siteUrl"],
                     "type": "manga" if manga else "anime",

@@ -18,6 +18,7 @@ media_query = """query ($userId: Int, $page:Int) {
       id
       title {
         romaji
+        english
       }
       type
       status
