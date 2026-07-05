@@ -2,14 +2,14 @@ import json
 import time
 
 from imdb import imdb
-from tvtime import tvtime
 from storygraph import storygraph
 from anilist import anilist
 from playnite import playnite
+from trakt import trakt
 
-from secrets import IMDB_SECRET, TVTIME_SECRET, STORYGRAPH_SECRET, ANILIST_SECRET
+from secrets import IMDB_SECRET, TRAKT_SECRET,  STORYGRAPH_SECRET, ANILIST_SECRET
 
-scrapers = [imdb(IMDB_SECRET), tvtime(TVTIME_SECRET), storygraph(STORYGRAPH_SECRET), anilist(ANILIST_SECRET), playnite()]
+scrapers = [imdb(IMDB_SECRET), trakt(TRAKT_SECRET), storygraph(STORYGRAPH_SECRET), anilist(ANILIST_SECRET), playnite()]
 items = []
 
 for scraper in scrapers:
@@ -23,6 +23,7 @@ for item in items:
 
 with open("output.json", "w", encoding="utf-8") as f:
     json.dump(items, f)
+
 
 with open("timestamps.json", "r+", encoding="utf-8") as f:
     timestamps = json.load(f)

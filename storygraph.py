@@ -20,7 +20,7 @@ class storygraph:
         driver.find_element(By.ID, "user_email").send_keys(self.credentials[0])
         driver.find_element(By.ID, "user_password").send_keys(self.credentials[1])
         driver.find_element(By.ID, "sign-in-btn").click()
-        time.sleep(3)
+        time.sleep(10)
 
         # Scrape To-Read Pile
         driver.find_element(By.LINK_TEXT, "To-Read Pile").click()
